@@ -53,10 +53,6 @@ export class SessionStats {
     return this.calls.filter((c) => c.outcome === "passthrough").length;
   }
 
-  getCalls(): readonly CallRecord[] {
-    return this.calls;
-  }
-
   /** Renders a human-readable multi-line summary suitable for stderr. */
   formatSummary(): string {
     if (this.calls.length === 0) {

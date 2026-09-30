@@ -25,8 +25,4 @@ export class Deduplicator {
       this.seen.set(hash, entry);
     }
   }
-
-  get size(): number {
-    return this.seen.size;
-  }
 }

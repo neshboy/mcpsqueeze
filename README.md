@@ -73,7 +73,7 @@ Using the bundled test fixture server (one `get_large_text` tool returning a ~5.
 ```
 tools: [ 'echo', 'get_large_text' ]
 call 1 (large text) result length: 2082   <- truncated from 5640 chars
-call 2 (repeat) result: [mcpsqueeze] Duplicate result suppressed: identical to result from call #1, 1210 tokens saved by not resending it.
+call 2 (repeat) result: [mcpsqueeze] Duplicate result suppressed: identical to result from call #1, 476 tokens saved by not resending it.
 
 [mcpsqueeze] session summary
   tool calls proxied:     2
@@ -81,8 +81,8 @@ call 2 (repeat) result: [mcpsqueeze] Duplicate result suppressed: identical to r
     - deduplicated:      1
     - truncated:         1
   tokens before squeeze:  2420
-  tokens after squeeze:   504
-  tokens saved:           1916 (79.2%)
+  tokens after squeeze:   503
+  tokens saved:           1917 (79.2%)
 ```
 
 That's a ~79% reduction in tokens sent to the model for these two calls, with the first call's data still fully available (just clipped with a marker telling the agent how to get more) and the second call correctly recognized as an exact repeat.

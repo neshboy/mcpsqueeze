@@ -71,8 +71,6 @@ export function squeezeContent(
     }
   }
 
-  dedup.remember(hash, { callIndex, tokens: originalTokens });
-
   let truncatedAny = false;
   const processed: ContentBlock[] = content.map((block) => {
     if (block.type !== "text") return block;
@@ -84,6 +82,11 @@ export function squeezeContent(
   const canonicalFinal = truncatedAny ? canonicalize(processed) : canonicalOriginal;
   const finalTokens = truncatedAny ? countTokensSimple(canonicalFinal) : originalTokens;
   const finalChars = truncatedAny ? textLength(processed) || canonicalFinal.length : originalChars;
+
+  // Remember what was *actually sent* for this call (post-truncation), not
+  // the raw pre-truncation size, so a future duplicate's "tokens saved"
+  // reference reflects the real incremental benefit on top of truncation.
+  dedup.remember(hash, { callIndex, tokens: finalTokens });
 
   const outcome: CallOutcome = truncatedAny ? "truncated" : "passthrough";
 
