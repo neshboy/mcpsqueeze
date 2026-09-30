@@ -17,9 +17,17 @@ export function truncateText(text: string, maxChars: number): TruncateResult {
 
   const omittedChars = text.length - maxChars;
   const marker = `\n[...truncated, ${omittedChars} characters omitted, use a more specific query to see more...]`;
+  const truncatedText = text.slice(0, maxChars) + marker;
+
+  // If the marker overhead makes the "truncated" text no shorter than the
+  // original (only possible when text is just barely over maxChars), keep
+  // the original untouched — truncation should never make things worse.
+  if (truncatedText.length >= text.length) {
+    return { text, truncated: false, omittedChars: 0 };
+  }
 
   return {
-    text: text.slice(0, maxChars) + marker,
+    text: truncatedText,
     truncated: true,
     omittedChars,
   };

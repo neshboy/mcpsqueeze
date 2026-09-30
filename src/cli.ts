@@ -89,11 +89,11 @@ async function main(): Promise<void> {
   process.on("exit", printSummary);
   process.on("SIGINT", () => {
     printSummary();
-    process.exit(0);
+    void session.close().finally(() => process.exit(0));
   });
   process.on("SIGTERM", () => {
     printSummary();
-    process.exit(0);
+    void session.close().finally(() => process.exit(0));
   });
 }
 
